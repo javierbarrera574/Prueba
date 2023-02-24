@@ -1,0 +1,91 @@
+﻿@page "/FormularioParaAdaptarConDatos"
+
+<h1>My guestbook</h1>
+
+<p>Leave me a message if you like my site</p>
+
+<EditForm Model="@Model" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+    <div class="alert @StatusClass">@StatusMessage</div>
+
+    <ObjectGraphDataAnnotationsValidator />
+    <ValidationSummary />
+    <Blazored.FluentValidation.FluentValidationValidator />
+
+
+    <div class="form-group">
+        <label for="name">Name: </label>
+        <InputText Id="name" Class="form-control" @bind-Value="@Model.Autor.Name"></InputText>
+        <ValidationMessage For="@(() => Model.Autor.Name)" />
+    </div>
+    <div class="form-group">
+        <label for="name">E-mail: </label>
+        <InputText Id="name" Class="form-control" @bind-Value="@Model.Autor.Email"></InputText>
+        <ValidationMessage For="@(() => Model.Autor.Email)" />
+    </div>
+    <div class="form-group">
+        <label for="name">E-mail: </label>
+        <InputDate Id="name" Class="form-control" @bind-Value="@Model.Autor.FechaNacimiento"></InputDate>
+        <ValidationMessage For="@(() => Model.Autor.FechaNacimiento)" />
+    </div>
+
+    <div class="form-group">
+        <label for="name">E-mail: </label>
+        <InputSelect @bind-Value="Model.Autor.Genero" class="form-control">
+            @foreach (var genero in Enum.GetValues(typeof(Genero)))
+            {
+                <option value="@genero">@genero</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => Model.Autor.Genero)" />
+    </div>
+
+    <div class="form-group">
+        <label for="name">E-mail: </label>
+        <InputText Id="name" Class="form-control" @bind-Value="@Model.Editorial.NombreEditorial"></InputText>
+        <ValidationMessage For="@(() => Model.Editorial.NombreEditorial)" />
+    </div>
+
+    <div class="form-group">
+        <label for="name">E-mail: </label>
+        <InputNumber Id="name" Class="form-control" @bind-Value="@Model.Editorial.CodigoLibro"></InputNumber>
+        <ValidationMessage For="@(() => Model.Editorial.CodigoLibro)" />
+    </div>
+
+    <div class="form-group">
+        <label for="name">E-mail: </label>
+        <InputSelect @bind-Value="Model.Editorial.CategoriaLibro" class="form-control">
+            @foreach (var genero in Enum.GetValues(typeof(CategoriaLibro)))
+            {
+                <option value="@genero">@genero</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => Model.Editorial.CategoriaLibro)" />
+    </div>
+    <div class="form-group">
+        <label for="body">Text: </label>
+        <InputTextArea Id="body" Class="form-control" @bind-Value="@Model.DescripcionLibro"></InputTextArea>
+        <ValidationMessage For="@(() => Model.DescripcionLibro)" />
+    </div>
+    <button type="submit">Ok</button>
+
+</EditForm>
+
+@code
+{
+    private string StatusMessage;
+    private string StatusClass;
+
+    private Libro Model = new Libro();
+
+    protected void HandleValidSubmit()
+    {
+        StatusClass = "alert-info";
+        StatusMessage = DateTime.Now + " Handle valid submit";
+    }
+
+    protected void HandleInvalidSubmit()
+    {
+        StatusClass = "alert-danger";
+        StatusMessage = DateTime.Now + " Handle invalid submit";
+    }
+}
